@@ -1,32 +1,104 @@
 body {
   margin: 0;
-  font-family: sans-serif;
-  background: #0f0f0f;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg,#1a1f3c,#0c0f1f);
   color: white;
-  text-align: center;
 }
 
-header {
+.app {
+  display: flex;
+  height: 90vh;
+}
+
+/* Sidebar */
+.sidebar {
+  width: 220px;
+  background: rgba(0,0,0,0.3);
   padding: 20px;
-  background: linear-gradient(90deg,#ff0066,#6600ff);
 }
 
-.music-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fill,minmax(200px,1fr));
-  gap: 20px;
-  padding: 20px;
+.logo {
+  margin-bottom: 40px;
 }
 
-.card {
-  background: #1a1a1a;
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+}
+
+.sidebar li {
+  padding: 10px;
+  margin: 5px 0;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: 0.3s;
+}
+
+.sidebar li:hover,
+.sidebar .active {
+  background: rgba(255,255,255,0.1);
+}
+
+/* Main */
+.main {
+  flex: 1;
+  padding: 40px;
+  overflow-y: auto;
+}
+
+.featured {
+  background: linear-gradient(135deg,#4b6cb7,#182848);
+  border-radius: 20px;
+  padding: 40px;
+  margin-bottom: 30px;
+}
+
+.featured button {
+  padding: 10px 20px;
+  border: none;
+  background: #ff3d6e;
+  color: white;
+  border-radius: 30px;
+  cursor: pointer;
+}
+
+.track-list {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.track {
+  background: rgba(255,255,255,0.05);
   padding: 15px;
-  border-radius: 15px;
+  border-radius: 12px;
   cursor: pointer;
   transition: 0.3s;
 }
 
-.card:hover {
-  transform: scale(1.05);
-  background: #222;
+.track:hover {
+  background: rgba(255,255,255,0.1);
+}
+
+/* Player */
+.player-bar {
+  height: 10vh;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  justify-content: space-between;
+}
+
+.controls button {
+  padding: 8px 15px;
+  border-radius: 50%;
+  border: none;
+  background: #ff3d6e;
+  color: white;
+  cursor: pointer;
+}
+
+#progress {
+  width: 40%;
 }
