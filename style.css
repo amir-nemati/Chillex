@@ -179,3 +179,40 @@ body {
   }
 
 }
+
+/* Cover Animation */
+.now-playing img {
+  animation: spin 6s linear infinite;
+  animation-play-state: paused;
+}
+
+.playing .now-playing img {
+  animation-play-state: running;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Progress */
+#progress {
+  width: 30%;
+  accent-color: #ff3d6e;
+  cursor: pointer;
+}
+
+.time {
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+/* Glow when playing */
+.playing .player-bar {
+  box-shadow: 0 0 25px rgba(255,61,110,0.6);
+}
+
+/* Smooth fade */
+.track {
+  transition: 0.3s ease;
+}
