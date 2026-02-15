@@ -10,7 +10,6 @@
 
 <div class="app">
 
-  <!-- Sidebar -->
   <div class="sidebar">
     <h2 class="logo">🎧 Amir</h2>
     <ul>
@@ -21,37 +20,39 @@
     </ul>
   </div>
 
-  <!-- Main Content -->
   <div class="main">
 
     <h1>New Releases</h1>
 
     <div class="featured">
-      <div class="featured-info">
+      <div>
         <h2>Beyond Fear</h2>
         <p>Amir Artist</p>
-        <button onclick="playDemo()">▶ Play</button>
+        <button onclick="playSong(0)">▶ Play</button>
       </div>
     </div>
 
     <h3 class="section-title">Popular Tracks</h3>
-
     <div class="track-list" id="musicList"></div>
 
   </div>
 </div>
 
-<!-- Bottom Player -->
 <div class="player-bar">
   <div class="now-playing">
-    <span id="nowTitle">No song</span>
+    <img id="cover" src="" />
+    <span id="nowTitle">No song playing</span>
   </div>
 
   <div class="controls">
+    <button onclick="prev()">⏮</button>
     <button onclick="playPause()">⏯</button>
+    <button onclick="next()">⏭</button>
   </div>
 
-  <input type="range" id="progress" value="0">
+  <div class="extra-controls">
+    🔊 <input type="range" id="volume" min="0" max="1" step="0.01">
+  </div>
 
 </div>
 
