@@ -1,14 +1,18 @@
+*{
+  box-sizing: border-box;
+}
+
 body {
   margin: 0;
   font-family: 'Segoe UI', sans-serif;
   background: linear-gradient(135deg,#1e1f4b,#0c0f1f);
   color: white;
-  overflow: hidden;
 }
 
+/* Layout */
 .app {
   display: flex;
-  height: 90vh;
+  min-height: 100vh;
 }
 
 /* Sidebar */
@@ -17,6 +21,12 @@ body {
   backdrop-filter: blur(20px);
   background: rgba(255,255,255,0.05);
   padding: 20px;
+  transition: 0.3s;
+}
+
+.sidebar ul{
+  list-style: none;
+  padding: 0;
 }
 
 .sidebar li {
@@ -35,7 +45,7 @@ body {
 .main {
   flex: 1;
   padding: 40px;
-  overflow-y: auto;
+  padding-bottom: 120px;
 }
 
 .featured {
@@ -56,9 +66,10 @@ body {
   cursor: pointer;
 }
 
+/* Track List */
 .track-list {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(auto-fill,minmax(250px,1fr));
   gap: 15px;
 }
 
@@ -75,7 +86,7 @@ body {
 
 .track:hover {
   background: rgba(255,255,255,0.15);
-  transform: translateX(5px);
+  transform: translateY(-3px);
 }
 
 .track img {
@@ -86,8 +97,12 @@ body {
 
 /* Player */
 .player-bar {
-  height: 10vh;
-  background: rgba(0,0,0,0.6);
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 80px;
+  background: rgba(0,0,0,0.8);
   backdrop-filter: blur(20px);
   display: flex;
   align-items: center;
@@ -102,8 +117,8 @@ body {
 }
 
 .now-playing img {
-  width: 40px;
-  height: 40px;
+  width: 45px;
+  height: 45px;
   border-radius: 8px;
 }
 
@@ -126,9 +141,41 @@ body {
   width: 100px;
 }
 
-/* Responsive */
-@media(max-width:768px){
-  .sidebar{
-    display:none;
+/* 📱 Mobile Responsive */
+@media(max-width:900px){
+
+  .app{
+    flex-direction: column;
   }
+
+  .sidebar{
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+  }
+
+  .sidebar ul{
+    display: flex;
+    gap: 15px;
+  }
+
+  .main{
+    padding: 20px;
+  }
+
+  .featured{
+    padding: 20px;
+  }
+
+  .track-list{
+    grid-template-columns: 1fr;
+  }
+
+  .player-bar{
+    flex-direction: column;
+    height: auto;
+    padding: 10px;
+    gap: 8px;
+  }
+
 }
