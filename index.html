@@ -2,16 +2,60 @@
 <html lang="fa">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Amir Music</title>
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-<h1>🎧 Amir Music</h1>
+<div class="app">
 
-<div id="musicList"></div>
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <h2 class="logo">🎧 Amir</h2>
+    <ul>
+      <li class="active">🏠 Home</li>
+      <li>🎵 Songs</li>
+      <li>📀 Albums</li>
+      <li>❤️ Favorites</li>
+    </ul>
+  </div>
 
-<audio id="player" controls></audio>
+  <!-- Main Content -->
+  <div class="main">
+
+    <h1>New Releases</h1>
+
+    <div class="featured">
+      <div class="featured-info">
+        <h2>Beyond Fear</h2>
+        <p>Amir Artist</p>
+        <button onclick="playDemo()">▶ Play</button>
+      </div>
+    </div>
+
+    <h3 class="section-title">Popular Tracks</h3>
+
+    <div class="track-list" id="musicList"></div>
+
+  </div>
+</div>
+
+<!-- Bottom Player -->
+<div class="player-bar">
+  <div class="now-playing">
+    <span id="nowTitle">No song</span>
+  </div>
+
+  <div class="controls">
+    <button onclick="playPause()">⏯</button>
+  </div>
+
+  <input type="range" id="progress" value="0">
+
+</div>
+
+<audio id="audio"></audio>
 
 <script src="script.js"></script>
 </body>
