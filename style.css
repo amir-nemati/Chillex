@@ -1,8 +1,9 @@
 body {
   margin: 0;
   font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(135deg,#1a1f3c,#0c0f1f);
+  background: linear-gradient(135deg,#1e1f4b,#0c0f1f);
   color: white;
+  overflow: hidden;
 }
 
 .app {
@@ -13,30 +14,21 @@ body {
 /* Sidebar */
 .sidebar {
   width: 220px;
-  background: rgba(0,0,0,0.3);
+  backdrop-filter: blur(20px);
+  background: rgba(255,255,255,0.05);
   padding: 20px;
-}
-
-.logo {
-  margin-bottom: 40px;
-}
-
-.sidebar ul {
-  list-style: none;
-  padding: 0;
 }
 
 .sidebar li {
   padding: 10px;
-  margin: 5px 0;
+  border-radius: 10px;
   cursor: pointer;
-  border-radius: 8px;
   transition: 0.3s;
 }
 
 .sidebar li:hover,
 .sidebar .active {
-  background: rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.15);
 }
 
 /* Main */
@@ -47,18 +39,20 @@ body {
 }
 
 .featured {
-  background: linear-gradient(135deg,#4b6cb7,#182848);
-  border-radius: 20px;
+  background: linear-gradient(135deg,#ff3d6e,#6a00ff);
   padding: 40px;
+  border-radius: 25px;
   margin-bottom: 30px;
+  box-shadow: 0 0 40px rgba(255,61,110,0.5);
 }
 
 .featured button {
-  padding: 10px 20px;
-  border: none;
-  background: #ff3d6e;
-  color: white;
+  padding: 10px 25px;
   border-radius: 30px;
+  border: none;
+  background: white;
+  color: black;
+  font-weight: bold;
   cursor: pointer;
 }
 
@@ -69,36 +63,72 @@ body {
 }
 
 .track {
+  display: flex;
+  align-items: center;
+  gap: 15px;
   background: rgba(255,255,255,0.05);
   padding: 15px;
-  border-radius: 12px;
+  border-radius: 15px;
   cursor: pointer;
   transition: 0.3s;
 }
 
 .track:hover {
-  background: rgba(255,255,255,0.1);
+  background: rgba(255,255,255,0.15);
+  transform: translateX(5px);
+}
+
+.track img {
+  width: 50px;
+  height: 50px;
+  border-radius: 10px;
 }
 
 /* Player */
 .player-bar {
   height: 10vh;
-  background: rgba(0,0,0,0.5);
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(20px);
   display: flex;
   align-items: center;
-  padding: 0 20px;
   justify-content: space-between;
+  padding: 0 20px;
+}
+
+.now-playing {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.now-playing img {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
 }
 
 .controls button {
-  padding: 8px 15px;
+  margin: 0 5px;
+  padding: 8px 12px;
   border-radius: 50%;
   border: none;
   background: #ff3d6e;
   color: white;
   cursor: pointer;
+  font-size: 16px;
 }
 
-#progress {
-  width: 40%;
+.controls button:hover {
+  box-shadow: 0 0 10px #ff3d6e;
+}
+
+.extra-controls input {
+  width: 100px;
+}
+
+/* Responsive */
+@media(max-width:768px){
+  .sidebar{
+    display:none;
+  }
 }
