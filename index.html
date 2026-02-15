@@ -39,10 +39,27 @@
 </div>
 
 <div class="player-bar">
+
   <div class="now-playing">
-    <img id="cover" src="" />
-    <span id="nowTitle">No song playing</span>
+    <img id="cover" src="">
+    <div>
+      <div id="nowTitle">No song playing</div>
+      <div class="time">
+        <span id="currentTime">0:00</span> /
+        <span id="duration">0:00</span>
+      </div>
+    </div>
   </div>
+
+  <div class="controls">
+    <button onclick="prev()">⏮</button>
+    <button onclick="playPause()" id="playBtn">▶</button>
+    <button onclick="next()">⏭</button>
+  </div>
+
+  <input type="range" id="progress" value="0" min="0" max="100">
+  
+</div>
 
   <div class="controls">
     <button onclick="prev()">⏮</button>
@@ -61,3 +78,4 @@
 <script src="script.js"></script>
 </body>
 </html>
+
