@@ -2,7 +2,10 @@ const audio = document.getElementById("audio");
 const musicList = document.getElementById("musicList");
 const nowTitle = document.getElementById("nowTitle");
 const cover = document.getElementById("cover");
-const volume = document.getElementById("volume");
+const progress = document.getElementById("progress");
+const currentTimeEl = document.getElementById("currentTime");
+const durationEl = document.getElementById("duration");
+const playBtn = document.getElementById("playBtn");
 
 let currentIndex = 0;
 let isPlaying = false;
@@ -11,17 +14,17 @@ const songs = [
   {
     title: "Track One",
     url: "songs/sample.mp3",
-    cover: "https://picsum.photos/100?1"
+    cover: "https://picsum.photos/200?1"
   },
   {
     title: "Track Two",
     url: "songs/sample.mp3",
-    cover: "https://picsum.photos/100?2"
+    cover: "https://picsum.photos/200?2"
   },
   {
     title: "Track Three",
     url: "songs/sample.mp3",
-    cover: "https://picsum.photos/100?3"
+    cover: "https://picsum.photos/200?3"
   }
 ];
 
@@ -30,9 +33,7 @@ songs.forEach((song, index) => {
   div.className = "track";
   div.innerHTML = `
     <img src="${song.cover}">
-    <div>
-      <strong>${song.title}</strong>
-    </div>
+    <div><strong>${song.title}</strong></div>
   `;
   div.onclick = () => playSong(index);
   musicList.appendChild(div);
@@ -45,13 +46,19 @@ function playSong(index){
   nowTitle.innerText = songs[index].title;
   audio.play();
   isPlaying = true;
+  document.body.classList.add("playing");
+  playBtn.innerText = "⏸";
 }
 
 function playPause(){
   if(isPlaying){
     audio.pause();
+    document.body.classList.remove("playing");
+    playBtn.innerText = "▶";
   } else {
     audio.play();
+    document.body.classList.add("playing");
+    playBtn.innerText = "⏸";
   }
   isPlaying = !isPlaying;
 }
@@ -66,6 +73,25 @@ function prev(){
   playSong(currentIndex);
 }
 
-volume.addEventListener("input", () => {
-  audio.volume = volume.value;
+/* Progress Update */
+audio.addEventListener("timeupdate", () => {
+  progress.value = (audio.currentTime / audio.duration) * 100 || 0;
+  currentTimeEl.innerText = formatTime(audio.currentTime);
 });
+
+/* Duration */
+audio.addEventListener("loadedmetadata", () => {
+  durationEl.innerText = formatTime(audio.duration);
+});
+
+/* Drag progress */
+progress.addEventListener("input", () => {
+  audio.currentTime = (progress.value / 100) * audio.duration;
+});
+
+function formatTime(sec){
+  if(isNaN(sec)) return "0:00";
+  let m = Math.floor(sec / 60);
+  let s = Math.floor(sec % 60);
+  return m + ":" + (s < 10 ? "0" + s : s);
+}
