@@ -9,35 +9,29 @@ const playBtn = document.getElementById("playBtn");
 
 let currentIndex = 0;
 let isPlaying = false;
+let songs = [];
 
-const songs = [
-  {
-    title: "Track One",
-    url: "songs/sample.mp3",
-    cover: "https://picsum.photos/200?1"
-  },
-  {
-    title: "Track Two",
-    url: "songs/sample.mp3",
-    cover: "https://picsum.photos/200?2"
-  },
-  {
-    title: "Track Three",
-    url: "songs/sample.mp3",
-    cover: "https://picsum.photos/200?3"
-  }
-];
+/* Load songs from JSON */
+fetch("data/song.json")
+  .then(res => res.json())
+  .then(data => {
+    songs = data;
+    renderSongs();
+  });
 
-songs.forEach((song, index) => {
-  const div = document.createElement("div");
-  div.className = "track";
-  div.innerHTML = `
-    <img src="${song.cover}">
-    <div><strong>${song.title}</strong></div>
-  `;
-  div.onclick = () => playSong(index);
-  musicList.appendChild(div);
-});
+function renderSongs(){
+  musicList.innerHTML = "";
+  songs.forEach((song, index) => {
+    const div = document.createElement("div");
+    div.className = "track";
+    div.innerHTML = `
+      <img src="${song.cover}">
+      <div><strong>${song.title}</strong></div>
+    `;
+    div.onclick = () => playSong(index);
+    musicList.appendChild(div);
+  });
+}
 
 function playSong(index){
   currentIndex = index;
@@ -51,6 +45,8 @@ function playSong(index){
 }
 
 function playPause(){
+  if(!audio.src) return;
+
   if(isPlaying){
     audio.pause();
     document.body.classList.remove("playing");
@@ -64,11 +60,13 @@ function playPause(){
 }
 
 function next(){
+  if(songs.length === 0) return;
   currentIndex = (currentIndex + 1) % songs.length;
   playSong(currentIndex);
 }
 
 function prev(){
+  if(songs.length === 0) return;
   currentIndex = (currentIndex - 1 + songs.length) % songs.length;
   playSong(currentIndex);
 }
