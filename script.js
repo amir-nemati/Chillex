@@ -6,33 +6,51 @@ const progress = document.getElementById("progress");
 const currentTimeEl = document.getElementById("currentTime");
 const durationEl = document.getElementById("duration");
 const playBtn = document.getElementById("playBtn");
+const searchInput = document.getElementById("search");
 
 let currentIndex = 0;
 let isPlaying = false;
 let songs = [];
+let likedSongs = JSON.parse(localStorage.getItem("liked")) || [];
+let recentlyPlayed = JSON.parse(localStorage.getItem("recent")) || [];
 
-/* Load songs from JSON */
+/* Load Songs */
 fetch("data/song.json")
   .then(res => res.json())
   .then(data => {
     songs = data;
-    renderSongs();
+    renderSongs(songs);
   });
 
-function renderSongs(){
+/* Render Songs */
+function renderSongs(list){
   musicList.innerHTML = "";
-  songs.forEach((song, index) => {
+  list.forEach((song, index) => {
     const div = document.createElement("div");
     div.className = "track";
+
+    const isLiked = likedSongs.includes(song.url);
+
     div.innerHTML = `
       <img src="${song.cover}">
-      <div><strong>${song.title}</strong></div>
+      <div class="info">
+        <strong>${song.title}</strong>
+      </div>
+      <div class="actions">
+        <button onclick="toggleLike('${song.url}')">
+          ${isLiked ? "❤️" : "🤍"}
+        </button>
+        <a href="${song.url}" download>⬇</a>
+      </div>
     `;
-    div.onclick = () => playSong(index);
+
+    div.querySelector(".info").onclick = () => playSong(index);
+
     musicList.appendChild(div);
   });
 }
 
+/* Play Song */
 function playSong(index){
   currentIndex = index;
   audio.src = songs[index].url;
@@ -40,52 +58,92 @@ function playSong(index){
   nowTitle.innerText = songs[index].title;
   audio.play();
   isPlaying = true;
-  document.body.classList.add("playing");
   playBtn.innerText = "⏸";
+
+  addToRecent(songs[index].url);
 }
 
+/* Play / Pause */
 function playPause(){
   if(!audio.src) return;
 
   if(isPlaying){
     audio.pause();
-    document.body.classList.remove("playing");
     playBtn.innerText = "▶";
   } else {
     audio.play();
-    document.body.classList.add("playing");
     playBtn.innerText = "⏸";
   }
   isPlaying = !isPlaying;
 }
 
+/* Next / Prev */
 function next(){
-  if(songs.length === 0) return;
   currentIndex = (currentIndex + 1) % songs.length;
   playSong(currentIndex);
 }
 
 function prev(){
-  if(songs.length === 0) return;
   currentIndex = (currentIndex - 1 + songs.length) % songs.length;
   playSong(currentIndex);
 }
 
-/* Progress Update */
+/* Auto Next */
+audio.addEventListener("ended", next);
+
+/* Progress */
 audio.addEventListener("timeupdate", () => {
   progress.value = (audio.currentTime / audio.duration) * 100 || 0;
   currentTimeEl.innerText = formatTime(audio.currentTime);
 });
 
-/* Duration */
 audio.addEventListener("loadedmetadata", () => {
   durationEl.innerText = formatTime(audio.duration);
 });
 
-/* Drag progress */
 progress.addEventListener("input", () => {
   audio.currentTime = (progress.value / 100) * audio.duration;
 });
+
+/* Like System */
+function toggleLike(url){
+  if(likedSongs.includes(url)){
+    likedSongs = likedSongs.filter(item => item !== url);
+  } else {
+    likedSongs.push(url);
+  }
+  localStorage.setItem("liked", JSON.stringify(likedSongs));
+  renderSongs(songs);
+}
+
+/* Recently Played */
+function addToRecent(url){
+  recentlyPlayed = recentlyPlayed.filter(item => item !== url);
+  recentlyPlayed.unshift(url);
+  recentlyPlayed = recentlyPlayed.slice(0,5);
+  localStorage.setItem("recent", JSON.stringify(recentlyPlayed));
+}
+
+/* Search */
+searchInput.addEventListener("input", () => {
+  const value = searchInput.value.toLowerCase();
+  const filtered = songs.filter(song =>
+    song.title.toLowerCase().includes(value)
+  );
+  renderSongs(filtered);
+});
+
+/* Theme Toggle */
+function toggleTheme(){
+  document.body.classList.toggle("light");
+  localStorage.setItem("theme",
+    document.body.classList.contains("light") ? "light" : "dark"
+  );
+}
+
+if(localStorage.getItem("theme") === "light"){
+  document.body.classList.add("light");
+}
 
 function formatTime(sec){
   if(isNaN(sec)) return "0:00";
