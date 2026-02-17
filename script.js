@@ -7,6 +7,7 @@ const currentTimeEl = document.getElementById("currentTime");
 const durationEl = document.getElementById("duration");
 const playBtn = document.getElementById("playBtn");
 const searchInput = document.getElementById("search");
+const volumeSlider = document.getElementById("volume");
 
 let currentIndex = 0;
 let isPlaying = false;
@@ -151,3 +152,7 @@ function formatTime(sec){
   let s = Math.floor(sec % 60);
   return m + ":" + (s < 10 ? "0" + s : s);
 }
+
+volumeSlider.addEventListener("input", () => {
+  audio.volume = volumeSlider.value;
+});
